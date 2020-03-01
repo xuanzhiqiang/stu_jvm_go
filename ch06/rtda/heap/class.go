@@ -2,6 +2,7 @@ package heap
 
 import (
 	"jvmgo/ch06/classfile"
+	"strings"
 )
 
 type Class struct {
@@ -17,7 +18,7 @@ type Class struct {
 	interfaces        []*Class
 	instanceSlotCount uint
 	staticSlotCount   uint
-	staticVars        *Slots
+	staticVars        Slots
 }
 
 func newClass(cf *classfile.ClassFile) *Class {
@@ -55,4 +56,45 @@ func (self *Class) IsAnnotation() bool {
 }
 func (self *Class) IsEnum() bool {
 	return 0 != self.accessFlags&ACC_ENUM
+}
+
+// getters
+func (self *Class) ConstantPool() *ConstantPool {
+	return self.constantPool
+}
+func (self *Class) StaticVars() Slots {
+	return self.staticVars
+}
+
+// jvms 5.4.4
+func (self *Class) isAccessibleTo(other *Class) bool {
+	return self.IsPublic() ||
+		self.getPackageName() == other.getPackageName()
+}
+
+func (self *Class) getPackageName() string {
+	if i := strings.LastIndex(self.name, "/"); i >= 0 {
+		return self.name[:i]
+	}
+	return ""
+}
+
+func (self *Class) GetMainMethod() *Method {
+	return self.getStaticMethod("main", "([Ljava/lang/String;)V")
+}
+
+func (self *Class) getStaticMethod(name, descriptor string) *Method {
+	for _, method := range self.methods {
+		if method.IsStatic() &&
+			method.name == name &&
+			method.descriptor == descriptor {
+
+			return method
+		}
+	}
+	return nil
+}
+
+func (self *Class) NewObject() *Object {
+	return newObject(self)
 }
