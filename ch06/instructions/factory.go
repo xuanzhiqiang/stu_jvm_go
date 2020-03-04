@@ -1,16 +1,28 @@
 package instructions
 
-import "fmt"
-import "jvmgo/ch06/instructions/base"
-import . "jvmgo/ch06/instructions/comparisons"
-import . "jvmgo/ch06/instructions/constants"
-import . "jvmgo/ch06/instructions/control"
-import . "jvmgo/ch06/instructions/conversions"
-import . "jvmgo/ch06/instructions/extended"
-import . "jvmgo/ch06/instructions/loads"
-import . "jvmgo/ch06/instructions/math"
-import . "jvmgo/ch06/instructions/stack"
-import . "jvmgo/ch06/instructions/stores"
+import (
+	"fmt"
+	"jvmgo/ch06/instructions/base"
+	. "jvmgo/ch06/instructions/comparisons"
+
+	. "jvmgo/ch06/instructions/constants"
+
+	. "jvmgo/ch06/instructions/control"
+
+	. "jvmgo/ch06/instructions/conversions"
+
+	. "jvmgo/ch06/instructions/extended"
+
+	. "jvmgo/ch06/instructions/loads"
+
+	. "jvmgo/ch06/instructions/math"
+
+	. "jvmgo/ch06/instructions/references"
+
+	. "jvmgo/ch06/instructions/stack"
+
+	. "jvmgo/ch06/instructions/stores"
+)
 
 // NoOperandsInstruction singletons
 var (
@@ -202,12 +214,12 @@ func NewInstruction(opcode byte) base.Instruction {
 		return &BIPUSH{}
 	case 0x11:
 		return &SIPUSH{}
-	// case 0x12:
-	// 	return &LDC{}
-	// case 0x13:
-	// 	return &LDC_W{}
-	// case 0x14:
-	// 	return &LDC2_W{}
+	case 0x12:
+		return &LDC{}
+	case 0x13:
+		return &LDC_W{}
+	case 0x14:
+		return &LDC2_W{}
 	case 0x15:
 		return &ILOAD{}
 	case 0x16:
@@ -522,26 +534,26 @@ func NewInstruction(opcode byte) base.Instruction {
 	// 	return areturn
 	// case 0xb1:
 	// 	return _return
-	//	case 0xb2:
-	//		return &GET_STATIC{}
-	// case 0xb3:
-	// 	return &PUT_STATIC{}
-	// case 0xb4:
-	// 	return &GET_FIELD{}
-	// case 0xb5:
-	// 	return &PUT_FIELD{}
-	//	case 0xb6:
-	//		return &INVOKE_VIRTUAL{}
-	// case 0xb7:
-	// 	return &INVOKE_SPECIAL{}
+	case 0xb2:
+		return &GET_STATIC{}
+	case 0xb3:
+		return &PUT_STATIC{}
+	case 0xb4:
+		return &GET_FIELD{}
+	case 0xb5:
+		return &PUT_FIELD{}
+	case 0xb6:
+		return &INVOKE_VIRTUAL{}
+	case 0xb7:
+		return &INVOKE_SPECIAL{}
 	// case 0xb8:
 	// 	return &INVOKE_STATIC{}
 	// case 0xb9:
 	// 	return &INVOKE_INTERFACE{}
 	// case 0xba:
 	// 	return &INVOKE_DYNAMIC{}
-	// case 0xbb:
-	// 	return &NEW{}
+	case 0xbb:
+		return &NEW{}
 	// case 0xbc:
 	// 	return &NEW_ARRAY{}
 	// case 0xbd:
@@ -550,10 +562,10 @@ func NewInstruction(opcode byte) base.Instruction {
 	// 	return arraylength
 	// case 0xbf:
 	// 	return athrow
-	// case 0xc0:
-	// 	return &CHECK_CAST{}
-	// case 0xc1:
-	// 	return &INSTANCE_OF{}
+	case 0xc0:
+		return &CHECK_CAST{}
+	case 0xc1:
+		return &INSTANCE_OF{}
 	// case 0xc2:
 	// 	return monitorenter
 	// case 0xc3:

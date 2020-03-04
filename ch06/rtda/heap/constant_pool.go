@@ -12,7 +12,7 @@ type ConstantPool struct {
 	consts []Constant
 }
 
-func newConstantPool(class *Class, cfCp classfile.ConstantInfo) *ConstantPool {
+func newConstantPool(class *Class, cfCp classfile.ConstantPool) *ConstantPool {
 	cpCount := len(cfCp)
 	consts := make([]Constant, cpCount)
 	rtCp := &ConstantPool{class, consts}
@@ -36,7 +36,7 @@ func newConstantPool(class *Class, cfCp classfile.ConstantInfo) *ConstantPool {
 			i++
 		case *classfile.ConstantStringInfo:
 			stringInfo := cpInfo.(*classfile.ConstantStringInfo)
-			consts[i] = stringInfo.Value()
+			consts[i] = stringInfo.String()
 		case *classfile.ConstantClassInfo:
 			classInfo := cpInfo.(*classfile.ConstantClassInfo)
 			consts[i] = newClassRef(rtCp, classInfo)
