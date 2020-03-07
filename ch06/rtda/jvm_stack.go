@@ -13,6 +13,10 @@ func newStack(maxSize uint) *Stack {
 	}
 }
 
+func (self *Stack) isEmpty() bool {
+	return self._top == nil
+}
+
 func (self *Stack) push(frame *Frame) {
 	if self.size >= self.maxSize {
 		panic("java.lang.StackOverflowError")
