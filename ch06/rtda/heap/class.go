@@ -81,6 +81,9 @@ func (self *Class) StaticVars() Slots {
 func (self *Class) InitStarted() bool {
 	return self.initStarted
 }
+func (self *Class) Loader() *ClassLoader {
+	return self.loader
+}
 
 func (self *Class) StartInit() {
 	self.initStarted = true
@@ -120,4 +123,19 @@ func (self *Class) getStaticMethod(name, descriptor string) *Method {
 
 func (self *Class) NewObject() *Object {
 	return newObject(self)
+}
+
+func (self *Class) ArrayClass() *Class {
+	arrayClassName := getArrayClassName(self.name)
+	return self.loader.LoadClass(arrayClassName)
+}
+
+func (self *Class) isJlObject() bool {
+	return self.name == "java/lang/Object"
+}
+func (self *Class) isJlCloneable() bool {
+	return self.name == "java/lang/Cloneable"
+}
+func (self *Class) isJioSerializable() bool {
+	return self.name == "java/io/Serializable"
 }

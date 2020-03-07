@@ -14,7 +14,7 @@ func (self *NEW) Execute(frame *rtda.Frame) {
 	class := classRef.ResolvedClass()
 
 	if !class.InitStarted() {
-		frame.ReverNextPC()
+		frame.RevertNextPC()
 		base.InitClass(frame.Thread(), class)
 		return
 	}
